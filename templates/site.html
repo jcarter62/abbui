@@ -1,0 +1,80 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Title Here{% endblock %}
+
+{% block content %}
+<link href="{{url_for('static', filename='css/site.css')}}" rel="stylesheet">
+<div class="container">
+    <div class="page-header tabletext">
+        <h1><a href="/site/{{context.site}}">Site {{context.site}}</a></h1>
+        <div class="jumbotron">
+            <table class="table table-striped">
+                <thead>
+                <tr scope="row">
+                    <th scope="col-6">&nbsp;</th>
+                    <th scope="col-3">ACFT</th>
+                    <th scope="col-3">CFS</th>
+                </tr>
+
+                </thead>
+                <tbody>
+
+                {% for r in context.combined %}
+                <tr scope="row">
+                    <td scope="col-6">
+                        {{r.tag}}
+                    </td>
+                    <td scope="col-3">
+                        {{r.acft}}
+                    </td>
+                    <td scope="col-3">
+                        {{r.cfs}}
+                    </td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <hr>
+
+            <table class="table table-striped">
+                <thead>
+                <tr scope="row">
+                    <th scope="col-4">Acct Orders</th>
+                    <th scope="col-2">Turnout</th>
+                    <th scope="col-2">Field</th>
+                    <th scope="col-2">CFS</th>
+                </tr>
+
+                </thead>
+                <tbody>
+
+                {% for r in context.orders %}
+                <tr scope="row">
+                    <td scope="col-6">
+                        {{r.account}}/{{r.account_name}}
+                    </td>
+                    <td scope="col-2">
+                        {{r.turnout_id}}
+                    </td>
+                    <td scope="col-2">
+                        {{r.fieldname}}
+                    </td>
+                    <td scope="col-2">
+                        {{r.flow}}&nbsp;<sup>{{r.isactive}}</sup>
+                    </td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <br>
+            <i>Reading Timestamp: {{context.timestamp}}</i>
+            <br>
+            <sup>1</sup> Order Active<br>
+            <sup>0</sup> Order Not Active
+
+        </div>
+    </div>
+    <a href="/">Home</a>
+    <br>
+</div>
+{% endblock %}

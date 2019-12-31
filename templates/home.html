@@ -1,0 +1,51 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Title Here{% endblock %}
+{% block content %}
+<link href="{{url_for('static', filename='css/home.css')}}" rel="stylesheet">
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-10">
+                <a href="/">
+                    <h3>ABB Paperless Recorders: {{ context.total }}</h3>
+                </a>
+            </div>
+            <div class="col-md-2 refresh_count" id="countdown">&nbsp;</div>
+        </div>
+        <div class="jumbotron">
+            {% for row in context.data %}
+            {% set startRow = (loop.index - 1) is divisibleby(3) %}
+            {% set endRow = loop.index is divisibleby(3) %}
+            {% if startRow %}
+            <div class="row sitedetail">
+                {% endif %}
+                <div class="col-sm-4">
+                    <span>
+                        <a href="site/{{row['site']}}">{{ row['site'] }}<span class="sitestatus {{row['age']}}">
+                            {{ row['orders'] }}&nbsp;/&nbsp;{{ row['tflowfmt'] }}
+                        </span>
+                        </a>
+                    </span>
+                </div>
+                {% if endRow %}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <hr>
+        <div><i>Data Format:<br>Lateral, followed by ordered CFS, followed by ABB Flow in CFS.</i></div>
+    </div>
+    <hr>
+    <a href="/">Home</a>
+    <br>
+</div>
+
+<script type="text/javascript" src="{{url_for('static', filename='js/includes.js')}}"></script>
+<script type="text/javascript">
+    // document.onload = startup();
+    // Reload page every 60 seconds.
+    // setTimeout(function () { startup(); }, 60000);
+    // timerHandler();
+</script>
+
+{% endblock %}
