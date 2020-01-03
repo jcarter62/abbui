@@ -6,16 +6,21 @@ class Sites:
     def __init__(self):
         settings = Settings()
         self.base_url = settings.base_url
+        self.sites = []
+        self.total_flow = 0.0
+        self.mrr_flow = 0.0
+        self.get_sites()
 
     def get_sites(self):
-        results = []
-        url = self.base_url + '/api/sites'
+        url = self.base_url + '/api/uihome'
         try:
             data = requests.get(url)
-            results = data.json()['sites']
+            jdata = data.json()
+            self.sites = jdata['sites']
+            self.total_flow = jdata['totalflow']
+            self.mrr_flow = jdata['mrrflow']
         except requests.exceptions.RequestException as e:
-            print('/api/sites exception:' + str(e))
-        return results
+            print('/api/uihome exception:' + str(e))
 
 
 

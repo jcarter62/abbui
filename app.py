@@ -24,45 +24,46 @@ app.logger = logger
 def route_home():
     log(request)
     s = Sites()
-    data = s.get_sites()
-    mrr = Mrr().get_mrr()
-    for m in mrr:
-        if m['state'] == 'ok':
-            m['tflowfmt'] = ('%10.2f' % m['tflow']).lstrip(' ') + 'cfs'
-        else:
-            m['tflowfmt'] = '-'
-        m['age'] = calc_age(m)
-#        m['title'] = calc_title(mrr)
-        m['site'] = m['site'].rstrip(' ')
+    data = s.sites
+    total = s.total_flow
 
-    for d in data:
-        sitename = d['abb']['urlname']
-        if sitename == '':
-            sitename = d['name']
-        d['site'] = sitename
-        d['mrrname'] = d['name']
-
-        mrrsite = findmrr(d['mrrname'], mrr)
-        d['mrr'] = mrrsite
-        print(mrrsite)
-#        url = d['abb']['']
-#        d['siteurl'] = url
-        if d['mrr'] is not None:
-            d['age'] = d['mrr']['age']
-            d['orders'] = ''
-            d['tflowfmt'] = d['mrr']['tflowfmt']
-        else:
-            d['age'] = ''
-            d['orders'] = ''
-            d['tflowfmt'] = ''
-
-
+#     s = Sites()
+#     data = s.get_sites()
+#     mrr = Mrr().get_mrr()
+#     for m in mrr:
+#         if m['state'] == 'ok':
+#             m['tflowfmt'] = ('%10.2f' % m['tflow']).lstrip(' ') + 'cfs'
+#         else:
+#             m['tflowfmt'] = '-'
+#         m['age'] = calc_age(m)
+# #        m['title'] = calc_title(mrr)
+#         m['site'] = m['site'].rstrip(' ')
+#
+#     for d in data:
+#         sitename = d['abb']['urlname']
+#         if sitename == '':
+#             sitename = d['name']
+#         d['site'] = sitename
+#         d['mrrname'] = d['name']
+#
+#         mrrsite = findmrr(d['mrrname'], mrr)
+#         d['mrr'] = mrrsite
+#         if mrrsite is None:
+#             d['age'] = ''
+#             d['orders'] = ''
+#             d['tflowfmt'] = ''
+#             d['siteurl'] = d['hmi']['url']
+#         else:
+#             d['age'] = mrrsite['age']
+#             d['orders'] = ''
+#             d['tflowfmt'] = mrrsite['tflowfmt']
+#             d['siteurl'] = './site/' + d['site']
+#
     context = {
         "data": data,
-        "total": "total",
+        "total": total,
     }
     return render_template('home.html', context=context)
-#    return 'Hello World!'
 
 
 def findmrr(name, mrr):

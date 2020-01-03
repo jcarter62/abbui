@@ -21,8 +21,8 @@
                 {% endif %}
                 <div class="col-sm-4">
                     <span>
-                        <a href="site/{{row['site']}}">{{ row['site'] }}<span class="sitestatus {{row['age']}}">
-                            {{ row['orders'] }}&nbsp;/&nbsp;{{ row['tflowfmt'] }}
+                        <a href="{{row['url']}}">{{ row['dispname'] }}<span class="sitestatus {{row['age']}}">
+                            {{ row['orders'] }}&nbsp;/&nbsp;{{ row['flow'] }}
                         </span>
                         </a>
                     </span>
