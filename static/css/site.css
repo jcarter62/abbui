@@ -3,5 +3,14 @@
 }
 
 .tabletext {
-    font-size: 2em;
+    font-size: 1.5em;
+}
+
+.icon {
+    height: 1.25em;
+}
+
+.footer {
+    font-size: xx-small;
+    font-style: italic;
 }

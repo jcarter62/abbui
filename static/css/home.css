@@ -19,19 +19,19 @@
 }
 
 .age1 {
-    color: darkred;
+    color: #4c6934;
 }
 
 .age2 {
-    color: rebeccapurple;
+    color: #504e19;
 }
 
 .age3 {
-    color: mediumvioletred;
+    color: #683411;
 }
 
 .age4 {
-    color: red;
+    color: #68083a;
 }
 
 .tooltip {
@@ -58,3 +58,11 @@
     visibility: visible;
 }
 
+.footer {
+    font-size: xx-small;
+    font-style: italic;
+}
+
+.icon {
+    height: 1.25em;
+}

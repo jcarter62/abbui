@@ -5,7 +5,7 @@ from flask import Flask, render_template, send_from_directory, request
 from flask_bootstrap import Bootstrap
 
 from logdir import LogFile
-from data import Sites, Mrr
+from data import Sites, Mrr, Site
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -27,43 +27,19 @@ def route_home():
     data = s.sites
     total = s.total_flow
 
-#     s = Sites()
-#     data = s.get_sites()
-#     mrr = Mrr().get_mrr()
-#     for m in mrr:
-#         if m['state'] == 'ok':
-#             m['tflowfmt'] = ('%10.2f' % m['tflow']).lstrip(' ') + 'cfs'
-#         else:
-#             m['tflowfmt'] = '-'
-#         m['age'] = calc_age(m)
-# #        m['title'] = calc_title(mrr)
-#         m['site'] = m['site'].rstrip(' ')
-#
-#     for d in data:
-#         sitename = d['abb']['urlname']
-#         if sitename == '':
-#             sitename = d['name']
-#         d['site'] = sitename
-#         d['mrrname'] = d['name']
-#
-#         mrrsite = findmrr(d['mrrname'], mrr)
-#         d['mrr'] = mrrsite
-#         if mrrsite is None:
-#             d['age'] = ''
-#             d['orders'] = ''
-#             d['tflowfmt'] = ''
-#             d['siteurl'] = d['hmi']['url']
-#         else:
-#             d['age'] = mrrsite['age']
-#             d['orders'] = ''
-#             d['tflowfmt'] = mrrsite['tflowfmt']
-#             d['siteurl'] = './site/' + d['site']
-#
     context = {
         "data": data,
         "total": total,
     }
     return render_template('home.html', context=context)
+
+
+@app.route('/site/<sitename>')
+def route_site_site(sitename):
+    log(request)
+    s = Site(sitename=sitename)
+    context = s.data
+    return render_template('site.html', context=context)
 
 
 def findmrr(name, mrr):
