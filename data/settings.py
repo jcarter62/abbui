@@ -1,13 +1,18 @@
+from .app_defaults import Defaults
+
+
 class Settings:
 
     def __init__(self, appname='abbui'):
         self.appname = appname
         self.base_url = ''
+        self.key = ''
         self.load_config()
 
     def __str__(self):
         nl = '\n'
         s = 'base_url:' + self.base_url + nl + \
+            'key:' + self.key + nl + \
             'config file:' + self.config_filename()
         return s
 
@@ -34,16 +39,27 @@ class Settings:
         except Exception as e:
             # Assume, we do not have a file, create a default object.
             db_obj = {
-                "base_url": "http://localhost:5200"
+                "base_url": Defaults().base_url,
+                "key": Defaults.key
             }
 
-        self.base_url = db_obj['base_url']
+        try:
+            self.base_url = db_obj['base_url']
+        except KeyError:
+            self.base_url = Defaults().base_url
+
+        try:
+            self.key = db_obj['key']
+        except KeyError:
+            self.key = Defaults().key
+
         return
 
     def save_config(self):
         import json
         obj = {
-            "base_url": self.base_url
+            "base_url": self.base_url,
+            "key": self.key
         }
 
         filename = self.config_filename()

@@ -15,8 +15,11 @@ class Site:
             return
 
         url = self.base_url + '/api/uisite/' + name
+        formdata = {'key': Settings().key}
         try:
-            data = requests.get(url)
+            data = requests.post(url, data=formdata)
+            if data.status_code != 200:
+                return
             self.data = data.json()
         except requests.exceptions.RequestException as e:
             print('/api/uisite/' + name + ' exception:' + str(e))

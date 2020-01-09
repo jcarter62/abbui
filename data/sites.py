@@ -13,8 +13,12 @@ class Sites:
 
     def get_sites(self):
         url = self.base_url + '/api/uihome'
+        formdata = {'key': Settings().key}
         try:
-            data = requests.get(url)
+            data = requests.post(url, data=formdata)
+            if data.status_code != 200:
+                return
+
             jdata = data.json()
             self.sites = jdata['sites']
             self.total_flow = jdata['totalflow']

@@ -30,6 +30,7 @@ class Setup:
         settings = Settings()
 
         settings.base_url = self.user_input(msg='Please provide Base URL', def_val=settings.base_url)
+        settings.key = self.user_input(msg='Key', def_val=settings.key)
 
         if self.user_input(msg='Update config file ? ', def_val='yes') == 'yes':
             settings.save_config()

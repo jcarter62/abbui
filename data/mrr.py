@@ -10,8 +10,11 @@ class Mrr:
     def get_mrr(self):
         results = []
         url = self.base_url + '/mrr'
+        formdata = {'key': Settings().key}
         try:
-            data = requests.get(url)
+            data = requests.post(url, data=formdata)
+            if data.status_code != 200:
+                return
             results = data.json()['sites']
         except requests.exceptions.RequestException as e:
             print('/mrr exception:' + str(e))
