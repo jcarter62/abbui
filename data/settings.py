@@ -3,7 +3,7 @@ from .app_defaults import Defaults
 
 class Settings:
 
-    def __init__(self, appname='abbui'):
+    def __init__(self, appname='abbui-app'):
         self.appname = appname
         self.base_url = ''
         self.key = ''
@@ -40,7 +40,7 @@ class Settings:
             # Assume, we do not have a file, create a default object.
             db_obj = {
                 "base_url": Defaults().base_url,
-                "key": Defaults.key
+                "key": Defaults().key
             }
 
         try:
