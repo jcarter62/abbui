@@ -9,23 +9,11 @@ from logdir import LogFile
 from data import Sites, Mrr, Site
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'this is a secret key used by the flask web application.'
+app.config['SECRET_KEY'] = os.urandom(24)
 
-# app.config.update(
-#     # Set the secret key to a sufficiently random value
-#     SECRET_KEY='jdklsa;fjkafjiopgijegrqnljbngjliosolgrvf;vjdospji;djgfb',  ## os.urandom(24),
-#     # Set the session cookie to be secure
-#     SESSION_COOKIE_SECURE=True,
-#     # Set the session cookie for our app to a unique name
-#     SESSION_COOKIE_NAME='abbui',
-#     # Set CSRF tokens to be valid for the duration of the session. This assumes you’re using WTF-CSRF protection
-#     WTF_CSRF_TIME_LIMIT=None
-#     #
-#     # ref: https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/
-# )
 bootstrap = Bootstrap(app)
 
-logfile = LogFile(app_name='abbui')
+logfile = LogFile(app_name='abbui-app')
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 log_file_handler = logging.FileHandler(filename=logfile.full_path)
