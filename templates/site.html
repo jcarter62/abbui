@@ -1,6 +1,9 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base.html" %}
+{% block title %}
+    {{ context.title }}
+{% endblock %}
 
-{% block title %}Title Here{% endblock %}
+{% block page_content %}
 
 {% block content %}
 <link href="{{url_for('static', filename='css/site.css')}}" rel="stylesheet">
@@ -84,4 +87,5 @@
     <br>
     {% include 'footer.html' %}
 </div>
+{% endblock %}
 {% endblock %}

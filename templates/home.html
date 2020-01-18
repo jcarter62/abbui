@@ -1,5 +1,10 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}Title Here{% endblock %}
+{% extends "base.html" %}
+{% block title %}
+    {{ context.title }}
+{% endblock %}
+
+{% block page_content %}
+
 {% block content %}
     <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
     <div class="container">
@@ -97,5 +102,7 @@
         document.onload = startup();
 
     </script>
+
+{% endblock %}
 
 {% endblock %}
