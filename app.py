@@ -33,6 +33,7 @@ def route_home():
         context = {
             "data": data,
             "total": total,
+            "loginout": login_logout(request)
         }
         return render_template('home.html', context=context)
     else:
@@ -69,7 +70,8 @@ def route_login():
 
         context = {
             'username': session.get('username', ''),
-            'password': ''
+            'password': '',
+            "loginout": login_logout(request)
         }
         return render_template('login.html', context=context)
     else:
@@ -118,6 +120,8 @@ def route_site_site(sitename):
     if logged_in():
         s = Site(sitename=sitename)
         context = s.data
+        context["loginout"] = login_logout(request)
+
         return render_template('site.html', context=context)
     else:
         return redirect('/login')
@@ -181,6 +185,17 @@ def log(req):
 
     return
 
+#
+# check session, and see if user is logged in.
+# if Logged In, then return "logout" with correct url.
+# if not, then return "login" and respective url.
+#
+def login_logout(req: request):
+    if session.get('logged_in') == 'yes':
+        result = {'url': '/logout', 'label': 'Logout'}
+    else:
+        result = {'url': '/login', 'label': 'Login'}
+    return result
 
 if __name__ == '__main__':
     app.run()
