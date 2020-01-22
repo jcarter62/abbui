@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_from_directory, request, session, redirect
 from flask_bootstrap import Bootstrap
+from flask_mongo_session.session_processor import MongoSessionProcessor
 import os
 import logging
 import arrow
@@ -9,7 +10,32 @@ from logdir import LogFile
 from data import Sites, Mrr, Site
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(24)
+
+#
+# Setup Server based session storage.
+#
+try:
+    def getenv(name) -> str:
+        result = ''
+        value = os.getenv(name)
+        if value is None:
+            raise Exception('Environment Variable %s Missing' % name)
+        else:
+            result = value
+        return result
+
+    s_cookie_name = getenv('SESSION_COOKIE_NAME')
+    s_host = getenv('SESSION_HOST')
+    s_port = getenv('SESSION_PORT')
+    s_db = getenv('SESSION_DB')
+    _mongoconn_ = 'mongodb://%s:%s/%s' % (s_host, s_port, s_db)
+    app.session_cookie_name = s_cookie_name
+    app.session_interface = MongoSessionProcessor(_mongoconn_)
+except Exception as e:
+    print('Error with Environment: %s ' % e.__str__())
+    exit()
+
+
 
 bootstrap = Bootstrap(app)
 
@@ -196,6 +222,9 @@ def login_logout(req: request):
     else:
         result = {'url': '/login', 'label': 'Login'}
     return result
+
+
+
 
 if __name__ == '__main__':
     app.run()
