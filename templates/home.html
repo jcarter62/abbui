@@ -12,7 +12,7 @@
                     <div class="col-md-10">
                         <h3>
                             <a href="/">
-                                <img class="icon" src="{{ url_for('static', filename='icons/025-home.png') }}">
+                                <img class="icon" src="{{ url_for('static', filename='icons/svg/041-home.svg') }}">
                             </a>
                             ABB Recorders:{{ context.total }}
                         </h3>
@@ -31,7 +31,7 @@
                             <th scope="col-1"><img class="fav-icon fav-dim"
                                          id="favorite-toggle"
                                          onclick="favorites.toggle()"
-                                         src="{{ url_for('static', filename = 'icons/051-star.png') }}"
+                                         src="{{ url_for('static', filename = 'icons/svg/027-favourite.svg') }}"
                                     />
                                 &nbsp;</th>
                         </tr>
@@ -56,7 +56,7 @@
                                     <img class="fav-icon favorite fav-dim"
                                          id="{{ row['id'] }}X"
                                          onclick="favorites.fav_click('{{ row['id'] }}X')"
-                                         src="{{ url_for('static', filename = 'icons/051-star.png') }}"
+                                         src="{{ url_for('static', filename = 'icons/svg/027-favourite.svg') }}"
                                     />
                                 </td>
                             </tr>
@@ -76,8 +76,8 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/favorites.js') }}"></script>
         <script type="text/javascript">
 
-            let good_path = "{{ url_for('static', filename = 'icons/011-check.png') }}";
-            let bad_path = "{{ url_for('static', filename = 'icons/035-notification.png') }}";
+            let good_path = "{{ url_for('static', filename = 'icons/svg/049-checkbox.svg') }}";
+            let bad_path = "{{ url_for('static', filename = 'icons/svg/001-notification.svg') }}";
 
             let favorites = new Favorites()
             favorites.load_favorites()
