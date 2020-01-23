@@ -69,12 +69,18 @@
 
 .icon {
     height: 1.25em;
+
 }
+
+.fav-top { height: 1.25em;}
 
 .fav-icon { height: 1em;}
 
+
+
 .fav-dim {
     filter: grayscale(100%);
+    opacity: 50%;
 }
 
 .favorite {

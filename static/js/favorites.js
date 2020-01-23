@@ -129,5 +129,10 @@ class Favorites {
             console.log(e.message);
         }
     }
+
+    mouseover(msg) {
+        console.log(msg);
+    }
+
 }
 
