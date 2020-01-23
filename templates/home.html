@@ -28,10 +28,9 @@
                             <th scope="col-2">Orders</th>
                             <th scope="col-2">Flow</th>
                             <th scope="col-1">&nbsp;</th>
-                            <th scope="col-1"><img class="fav-icon fav-dim"
+                            <th scope="col-1" onclick="favorites.toggle()"><img class="fav-icon fav-dim"
                                          id="favorite-toggle"
-                                         onclick="favorites.toggle()"
-                                         src="{{ url_for('static', filename = 'icons/svg/027-favourite.svg') }}"
+                                         src="{{ url_for('static', filename = 'icons/027-favourite.png') }}"
                                     />
                                 &nbsp;</th>
                         </tr>
@@ -79,8 +78,6 @@
             let good_path = "{{ url_for('static', filename = 'icons/svg/049-checkbox.svg') }}";
             let bad_path = "{{ url_for('static', filename = 'icons/svg/001-notification.svg') }}";
 
-            let favorites = new Favorites()
-            favorites.load_favorites()
 
             function icon(id, value) {
                 if (value == '') {
@@ -124,6 +121,10 @@
             }
 
             document.onload = startup();
+
+            let favorites = new Favorites();
+            favorites.load_favorites();
+
         </script>
 
     {% endblock %}

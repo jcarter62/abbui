@@ -1,19 +1,10 @@
-// // Change state of favorite indicator.
-// function fav_click(id) {
-//     let elem = document.getElementById(id);
-//     if (elem.classList.contains('fav-dim')) {
-//         elem.classList.remove('fav-dim')
-//     } else {
-//         elem.classList.add('fav-dim')
-//     }
-// }
-
 class Favorites {
 
-    fav_toggle_btn = 'favorite-toggle';
-    dim_class = 'fav-dim';
-
     constructor() {
+
+        this.fav_toggle_btn = 'favorite-toggle';
+        this.dim_class = 'fav-dim';
+
         if (typeof (Storage) !== 'undefined') {
             this.localstore = true;
         } else {
@@ -78,9 +69,9 @@ class Favorites {
             }
         }
         // Now restore button at top of table.
-        if ( this.get(this.fav_toggle_btn) == '1' ) {
+        if (this.get(this.fav_toggle_btn) == '1') {
             let element = document.getElementById(this.fav_toggle_btn);
-            if ( element != null ) {
+            if (element != null) {
                 element.classList.remove(this.dim_class);
                 this.show_only_favorites()
             }
@@ -125,7 +116,7 @@ class Favorites {
         let element = document.getElementById(this.fav_toggle_btn)
         try {
             let isDim = element.classList.contains(this.dim_class);
-            if ( isDim ) {
+            if (isDim) {
                 element.classList.remove(this.dim_class);
                 this.show_only_favorites();
                 this.set(this.fav_toggle_btn)
