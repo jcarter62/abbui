@@ -71,6 +71,16 @@
     height: 1.25em;
 }
 
+.fav-icon { height: 1em;}
+
 .fav-dim {
     filter: grayscale(100%);
+}
+
+.favorite {
+    /* This is a placeholder class used to identify html elements. */
+}
+
+.hide-row {
+    display: none;
 }

@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-2 refresh_count" id="countdown">&nbsp;</div>
                 </div>
-                <div class="jumbotron tabletext">
+                <div class="jumbotron tabletext" >
 
                     <table class="table table-striped">
                         <thead>
@@ -28,12 +28,17 @@
                             <th scope="col-2">Orders</th>
                             <th scope="col-2">Flow</th>
                             <th scope="col-1">&nbsp;</th>
-                            <th scope="col-1">&nbsp;</th>
+                            <th scope="col-1"><img class="fav-icon fav-dim"
+                                         id="favorite-toggle"
+                                         onclick="favorites.toggle()"
+                                         src="{{ url_for('static', filename = 'icons/051-star.png') }}"
+                                    />
+                                &nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for row in context.data %}
-                            <tr scope="row" id="{{ row['id'] }}">
+                            <tr scope="row" class="datarow" id="{{ row['id'] }}">
                                 <td scope="col-4">
                                     <a href="{{ row['url'] }}">{{ row['dispname'] }}</a>
                                     {#                                    <span id="{{ loop.index }}A" class="dyn-icon">{{ row['orders_vs_flow'] }}</span>#}
@@ -48,9 +53,10 @@
                                     <span id="{{ loop.index }}B" class="dyn-icon">{{ row['orders_vs_flow'] }}</span>
                                 </td>
                                 <td scope="col-1">
-                                    <img class="icon fav-dim"
+                                    <img class="fav-icon favorite fav-dim"
                                          id="{{ row['id'] }}X"
-                                         onclick="fav_click('{{ row['id'] }}X')" src="{{ url_for('static', filename = 'icons/051-star.png') }}"
+                                         onclick="favorites.fav_click('{{ row['id'] }}X')"
+                                         src="{{ url_for('static', filename = 'icons/051-star.png') }}"
                                     />
                                 </td>
                             </tr>
@@ -67,23 +73,14 @@
 
 
         <script type="text/javascript" src="{{ url_for('static', filename='js/includes.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/favorites.js') }}"></script>
         <script type="text/javascript">
-            // document.onload = startup();
-            // Reload page every 60 seconds.
-            // setTimeout(function () { startup(); }, 60000);
-            // timerHandler();
-
-            function fav_click(id) {
-                let elem = document.getElementById(id);
-                if ( elem.classList.contains('fav-dim') ) {
-                    elem.classList.remove('fav-dim')
-                } else {
-                    elem.classList.add('fav-dim')
-                }
-            }
 
             let good_path = "{{ url_for('static', filename = 'icons/011-check.png') }}";
             let bad_path = "{{ url_for('static', filename = 'icons/035-notification.png') }}";
+
+            let favorites = new Favorites()
+            favorites.load_favorites()
 
             function icon(id, value) {
                 if (value == '') {
