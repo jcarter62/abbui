@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block page_content %}
-
     {% block content %}
         <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
         <div class="container">
@@ -25,18 +24,19 @@
                     <table class="table table-striped">
                         <thead>
                         <tr scope="row">
-                            <th scope="col-6">Plant/Site</th>
+                            <th scope="col-4">Plant/Site</th>
                             <th scope="col-2">Orders</th>
                             <th scope="col-2">Flow</th>
+                            <th scope="col-1">&nbsp;</th>
                             <th scope="col-1">&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for row in context.data %}
-                            <tr scope="row">
-                                <td scope="col-6">
+                            <tr scope="row" id="{{ row['id'] }}">
+                                <td scope="col-4">
                                     <a href="{{ row['url'] }}">{{ row['dispname'] }}</a>
-{#                                    <span id="{{ loop.index }}A" class="dyn-icon">{{ row['orders_vs_flow'] }}</span>#}
+                                    {#                                    <span id="{{ loop.index }}A" class="dyn-icon">{{ row['orders_vs_flow'] }}</span>#}
                                 </td>
                                 <td scope="col-2">
                                     <a href="{{ row['url'] }}">{{ row['orders'] }}</a>
@@ -46,6 +46,12 @@
                                 </td>
                                 <td scope="col-1">
                                     <span id="{{ loop.index }}B" class="dyn-icon">{{ row['orders_vs_flow'] }}</span>
+                                </td>
+                                <td scope="col-1">
+                                    <img class="icon fav-dim"
+                                         id="{{ row['id'] }}X"
+                                         onclick="fav_click('{{ row['id'] }}X')" src="{{ url_for('static', filename = 'icons/051-star.png') }}"
+                                    />
                                 </td>
                             </tr>
                         {% endfor %}
@@ -59,6 +65,7 @@
             {% include 'footer.html' %}
         </div>
 
+
         <script type="text/javascript" src="{{ url_for('static', filename='js/includes.js') }}"></script>
         <script type="text/javascript">
             // document.onload = startup();
@@ -66,14 +73,14 @@
             // setTimeout(function () { startup(); }, 60000);
             // timerHandler();
 
-            {#                        {% set icon = '' %}#}
-            {#                        {% if row['orders_vs_flow'] > '' %}#}
-            {#                            {% if row['orders_vs_flow'] == 'good' %}#}
-            {#                                {% set icon = Markup('<img class="icon" src="' + url_for('static', filename='icons/011-check.png') + '">') %}#}
-            {#                            {% else %}#}
-            {#                                {% set icon = Markup('<img class="icon" src="' + url_for('static', filename='icons/035-notification.png') + '">') %}#}
-            {#                            {% endif %}#}
-            {#                        {% endif %}#}
+            function fav_click(id) {
+                let elem = document.getElementById(id);
+                if ( elem.classList.contains('fav-dim') ) {
+                    elem.classList.remove('fav-dim')
+                } else {
+                    elem.classList.add('fav-dim')
+                }
+            }
 
             let good_path = "{{ url_for('static', filename = 'icons/011-check.png') }}";
             let bad_path = "{{ url_for('static', filename = 'icons/035-notification.png') }}";
@@ -120,7 +127,6 @@
             }
 
             document.onload = startup();
-
         </script>
 
     {% endblock %}

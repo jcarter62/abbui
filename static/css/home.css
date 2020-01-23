@@ -70,3 +70,7 @@
 .icon {
     height: 1.25em;
 }
+
+.fav-dim {
+    filter: grayscale(100%);
+}
