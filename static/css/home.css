@@ -67,16 +67,13 @@
     font-style: italic;
 }
 
-.icon {
-    height: 1.25em;
+.icon { height: 1.25em; }
 
-}
+.icon-pipe-run { height: 0.75em; }
+.icon-pipe-stop { height: 0.75em; filter: grayscale(100%); opacity: 50%}
 
 .fav-top { height: 1.25em;}
-
 .fav-icon { height: 1em;}
-
-
 
 .fav-dim {
     filter: grayscale(100%);

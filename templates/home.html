@@ -42,6 +42,12 @@
                             <tr scope="row" class="datarow" id="{{ row['id'] }}">
                                 <td scope="col-4">
                                     <a href="{{ row['url'] }}">{{ row['dispname'] }}</a>
+                                        {% for tag in row['tags'] %}
+                                                <img class="icon-pipe-{{ tag['state'] }}"
+                                                     title="{{ tag['tag'].upper() }}: {{ tag['value'] }}cfs"
+                                                     src="{{ url_for('static', filename = 'icons/flaticon/237-circle-1.svg') }}"
+                                                />
+                                        {% endfor %}
                                 </td>
                                 <td scope="col-2">
                                     <a href="{{ row['url'] }}">{{ row['orders'] }}</a>
