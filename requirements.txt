@@ -1,3 +1,4 @@
+matplotlib
 arrow==0.15.4
 certifi==2019.11.28
 chardet==3.0.4

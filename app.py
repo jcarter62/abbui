@@ -1,10 +1,11 @@
-from flask import Flask, render_template, send_from_directory, request, session, redirect
+from flask import Flask, render_template, send_from_directory, request, session, redirect, jsonify
 from flask_bootstrap import Bootstrap
 from flask_mongo_session.session_processor import MongoSessionProcessor
 import os
 import logging
 import arrow
 from auth import RemoveToken
+from plotter import Plotter
 
 from logdir import LogFile
 from data import Sites, Mrr, Site
@@ -153,6 +154,31 @@ def route_site_site(sitename):
         return redirect('/login')
 
 
+@app.route('/site-plot/<site>/<days>')
+def route_site_plot(site, days):
+    log(request)
+    if logged_in():
+        sess_id = session.get('_id')
+        filename = site + '.svg'
+        _plot_folder = os.path.join(os.path.abspath('.'), 'plot', sess_id)
+        if not os.path.exists(_plot_folder):
+            os.makedirs(_plot_folder)
+        plot_file_path = os.path.join(_plot_folder, filename)
+
+        plot_route = '/plot/' + sess_id + '/' + filename
+        print(plot_file_path)
+        Plotter(site=site, days=days, filename=plot_file_path)
+        return plot_route, 200
+    return '', 401
+
+
+@app.route('/plot/<folder>/<file>')
+def route_plot_folder_file(folder, file):
+    log(request)
+    return send_from_directory(os.path.join(app.root_path, 'plot', folder), file)
+
+
+
 def findmrr(name, mrr):
     for m in mrr:
         if name.lower() == m['site'].lower():
@@ -188,6 +214,7 @@ def calc_age(record) -> str:
 def favicon():
     log(request)
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
+
 
 def log(req):
     import arrow

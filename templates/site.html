@@ -5,87 +5,109 @@
 
 {% block page_content %}
 
-{% block content %}
-<link href="{{url_for('static', filename='css/site.css')}}" rel="stylesheet">
-<div class="container">
-    <div class="page-header tabletext">
+    {% block content %}
+        <link href="{{ url_for('static', filename='css/site.css') }}" rel="stylesheet">
+        <div class="container">
+            <div class="page-header tabletext">
 
-        <h3>
-            <a href="/">
-                <img class="icon" src="{{url_for('static', filename='icons/svg/041-home.svg')}}">
-            </a>
-            <a href="/site/{{context.site}}">Site {{context.site}}</a>
-        </h3>
-        <div class="jumbotron">
-            <table class="table table-striped">
-                <thead>
-                <tr scope="row">
-                    <th scope="col-6">&nbsp;</th>
-                    <th scope="col-3">ACFT</th>
-                    <th scope="col-3">CFS</th>
-                </tr>
+                <h3>
+                    <a href="/">
+                        <img class="icon" src="{{ url_for('static', filename='icons/svg/041-home.svg') }}">
+                    </a>
+                    <a href="/site/{{ context.site }}">Site {{ context.site }}</a>
+                </h3>
+                <div class="jumbotron">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr scope="row">
+                            <th scope="col-6">&nbsp;</th>
+                            <th scope="col-3">ACFT</th>
+                            <th scope="col-3">CFS</th>
+                        </tr>
 
-                </thead>
-                <tbody>
+                        </thead>
+                        <tbody>
 
-                {% for r in context.combined %}
-                <tr scope="row">
-                    <td scope="col-6">
-                        {{r.tag}}
-                    </td>
-                    <td scope="col-3">
-                        {{r.acft}}
-                    </td>
-                    <td scope="col-3">
-                        {{r.cfs}}
-                    </td>
-                </tr>
-                </tbody>
-                {% endfor %}
-            </table>
-            <hr>
+                        {% for r in context.combined %}
+                            <tr scope="row">
+                                <td scope="col-6">
+                                    {{ r.tag }}
+                                </td>
+                                <td scope="col-3">
+                                    {{ r.acft }}
+                                </td>
+                                <td scope="col-3">
+                                    {{ r.cfs }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <hr>
 
-            <table class="table table-striped orders">
-                <thead>
-                <tr scope="row">
-                    <th scope="col-4">Acct Orders</th>
-                    <th scope="col-2">Turnout</th>
-                    <th scope="col-2">Field</th>
-                    <th scope="col-2">CFS</th>
-                </tr>
+                    <table class="table table-striped orders">
+                        <thead>
+                        <tr scope="row">
+                            <th scope="col-4">Acct Orders</th>
+                            <th scope="col-2">Turnout</th>
+                            <th scope="col-2">Field</th>
+                            <th scope="col-2">CFS</th>
+                        </tr>
 
-                </thead>
-                <tbody>
+                        </thead>
+                        <tbody>
 
-                {% for r in context.orders %}
-                <tr scope="row">
-                    <td scope="col-6">
-                        {{r.account}}/{{r.account_name}}
-                    </td>
-                    <td scope="col-2">
-                        {{r.turnout_id}}
-                    </td>
-                    <td scope="col-2">
-                        {{r.fieldname}}
-                    </td>
-                    <td scope="col-2">
-                        {{r.flow}}&nbsp;<sup>{{r.isactive}}</sup>
-                    </td>
-                </tr>
-                </tbody>
-                {% endfor %}
-            </table>
+                        {% for r in context.orders %}
+                            <tr scope="row">
+                                <td scope="col-6">
+                                    {{ r.account }}/{{ r.account_name }}
+                                </td>
+                                <td scope="col-2">
+                                    {{ r.turnout_id }}
+                                </td>
+                                <td scope="col-2">
+                                    {{ r.fieldname }}
+                                </td>
+                                <td scope="col-2">
+                                    {{ r.flow }}&nbsp;<sup>{{ r.isactive }}</sup>
+                                </td>
+                            </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <br>
+                    <i>Reading Timestamp: {{ context.timestamp }}</i>
+                    <br>
+                    <sup>1</sup> Order Active<br>
+                    <sup>0</sup> Order Not Active
+                </div>
+                <div class="container" id="plot_div"></div>
+            </div>
+
             <br>
-            <i>Reading Timestamp: {{context.timestamp}}</i>
-            <br>
-            <sup>1</sup> Order Active<br>
-            <sup>0</sup> Order Not Active
-
+            {% include 'footer.html' %}
         </div>
-    </div>
+        <script type="text/javascript">
 
-    <br>
-    {% include 'footer.html' %}
-</div>
-{% endblock %}
+            function request_plot(site, days) {
+                let url = '/site-plot/' + site + '/' + days;
+                const Http = new XMLHttpRequest();
+                Http.open('GET', url);
+                Http.send();
+
+                Http.onreadystatechange = function() {
+                    if ((this.readyState == 4) && (this.status == 200)) {
+                        let result = Http.responseText;
+                        let e = document.getElementById('plot_div');
+                        let image_tag = '<img class="graphic" src="' + result + '">';
+                        e.innerHTML = image_tag;
+                    }
+                }
+            }
+
+            document.onload = request_plot('{{ context.site }}', 1);
+
+        </script>
+
+    {% endblock %}
 {% endblock %}
