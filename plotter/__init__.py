@@ -27,7 +27,6 @@ class Plotter:
             if data.status_code != 200:
                 return
             self.data = data.json()
-            print(json.dumps(self.data))
 
         except requests.exceptions.RequestException as e:
             print('/api/uisite-plot exception:' + str(e))
@@ -36,12 +35,20 @@ class Plotter:
     def create_plot_file(self):
         print('create_plot_file')
         plotfont = {'fontname': 'Times New Roman'}
+        #
+        # cast data types.
+        #
+        n = len(self.data['y'])
+        while n >= 0:
+            n = n - 1
+            self.data['y'][n] = float(self.data['y'][n])
+
         plt.plot(self.data['x'], self.data['y'])
-        plt.ylabel('CFS', **plotfont)
-        plt.title('Site: %s, flow for %s day(s)' % ( self.site, self.days), **plotfont)
-        plt.xticks(self.data['x'], self.data['labels'], rotation='vertical', **plotfont)
+        plt.ylabel('CFS')
+        plt.title('Site: %s, flow for %s day(s)' % ( self.site, self.days))
+        plt.xticks(self.data['x'], self.data['labels'], rotation='vertical')
         plt.tight_layout()
-        plt.savefig(self.filename, format='png')
+        plt.savefig(self.filename)
         plt.close()
         return
 
