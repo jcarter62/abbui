@@ -159,7 +159,7 @@ def route_site_plot(site, days):
     log(request)
     if logged_in():
         sess_id = session.get('_id')
-        filename = site + '.svg'
+        filename = site + '.png'
         _plot_folder = os.path.join(os.path.abspath('.'), 'plot', sess_id)
         if not os.path.exists(_plot_folder):
             os.makedirs(_plot_folder)

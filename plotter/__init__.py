@@ -41,7 +41,7 @@ class Plotter:
         plt.title('Site: %s, flow for %s day(s)' % ( self.site, self.days), **plotfont)
         plt.xticks(self.data['x'], self.data['labels'], rotation='vertical', **plotfont)
         plt.tight_layout()
-        plt.savefig(self.filename, format='svg')
+        plt.savefig(self.filename, format='png')
         plt.close()
         return
 
