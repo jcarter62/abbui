@@ -35,12 +35,12 @@ class Plotter:
 
     def create_plot_file(self):
         print('create_plot_file')
+        plotfont = {'fontname': 'Times New Roman'}
         plt.plot(self.data['x'], self.data['y'])
-        plt.ylabel('CFS')
-        plt.title('Site: %s, flow for %s day(s)' % ( self.site, self.days))
-        plt.xticks(self.data['x'], self.data['labels'], rotation='vertical')
+        plt.ylabel('CFS', **plotfont)
+        plt.title('Site: %s, flow for %s day(s)' % ( self.site, self.days), **plotfont)
+        plt.xticks(self.data['x'], self.data['labels'], rotation='vertical', **plotfont)
         plt.tight_layout()
-        plt.grid(which='major', axis='y')
         plt.savefig(self.filename, format='svg')
         plt.close()
         return
