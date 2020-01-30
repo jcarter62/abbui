@@ -101,6 +101,10 @@
                         let e = document.getElementById('plot_div');
                         let image_tag = '<img class="graphic" src="' + result + '">';
                         e.innerHTML = image_tag;
+                    } else {
+                        let txt = this.status.toString() + ':' +  Http.responseText;
+                        let e = document.getElementById('plot_div');
+                        e.innerText = txt;
                     }
                 }
             }

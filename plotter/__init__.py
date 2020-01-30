@@ -1,6 +1,9 @@
 from data import Settings
 import requests, json
-from matplotlib import pyplot as plt
+import matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 class Plotter:
@@ -45,11 +48,9 @@ class Plotter:
 
         plt.plot(self.data['x'], self.data['y'])
         plt.ylabel('CFS')
-        plt.title('Site: %s, flow for %s day(s)' % ( self.site, self.days))
+        plt.title('Site: %s, flow for %s day(s)' % (self.site, self.days))
         plt.xticks(self.data['x'], self.data['labels'], rotation='vertical')
         plt.tight_layout()
         plt.savefig(self.filename)
         plt.close()
         return
-
-
